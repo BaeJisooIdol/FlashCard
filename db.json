@@ -1,0 +1,114 @@
+{
+  "flashcards": [
+    {
+      "id": "1",
+      "question": "What is React.js?",
+      "answer": "React is a JavaScript library for building user interfaces, particularly single-page applications.",
+      "category": "Frontend"
+    },
+    {
+      "id": "2",
+      "question": "What is Node.js?",
+      "answer": "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine that allows executing JavaScript code outside of a web browser.",
+      "category": "Backend"
+    },
+    {
+      "id": "3",
+      "question": "What does SQL stand for?",
+      "answer": "SQL stands for Structured Query Language, which is used for managing and manipulating relational databases.",
+      "category": "Databases"
+    },
+    {
+      "id": "4",
+      "question": "What is Git?",
+      "answer": "Git is a distributed version control system for tracking changes in source code during software development.",
+      "category": "DevOps"
+    },
+    {
+      "id": "5",
+      "question": "What is an API?",
+      "answer": "API (Application Programming Interface) is a set of rules and protocols that allows different software applications to communicate with each other.",
+      "category": "Web Development"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Frontend"
+    },
+    {
+      "id": "2",
+      "name": "Backend"
+    },
+    {
+      "id": "3",
+      "name": "Databases"
+    },
+    {
+      "id": "4",
+      "name": "DevOps"
+    },
+    {
+      "id": "5",
+      "name": "Web Development"
+    },
+    {
+      "id": "6",
+      "name": "Mobile Development"
+    },
+    {
+      "id": "7",
+      "name": "Programming Languages"
+    },
+    {
+      "id": "8",
+      "name": "Data Structures"
+    },
+    {
+      "id": "9",
+      "name": "Algorithms"
+    },
+    {
+      "id": "10",
+      "name": "Networking"
+    },
+    {
+      "id": "11",
+      "name": "Security"
+    },
+    {
+      "id": "12",
+      "name": "Cloud Computing"
+    }
+  ],
+  "quizResults": [
+    {
+      "id": "aa00",
+      "date": "2025-07-20T14:46:29.885Z",
+      "category": "All Categories",
+      "totalQuestions": 5,
+      "correctAnswers": 2
+    },
+    {
+      "id": "0d09",
+      "date": "2025-07-20T14:47:16.348Z",
+      "category": "Frontend",
+      "totalQuestions": 1,
+      "correctAnswers": 0
+    },
+    {
+      "id": "e584",
+      "date": "2025-07-20T14:48:02.743Z",
+      "category": "Frontend",
+      "totalQuestions": 1,
+      "correctAnswers": 1
+    },
+    {
+      "id": "1025",
+      "date": "2025-07-21T07:09:27.081Z",
+      "category": "All Categories",
+      "totalQuestions": 5,
+      "correctAnswers": 1
+    }
+  ]
+}
