@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Button, ProgressBar, ListGroup } from 'react-bootstrap';
-import { FaCheck, FaTimes, FaRedo, FaHome } from 'react-icons/fa';
+import { FaCheck, FaTimes, FaRedo, FaHome, FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const QuizResult = ({ results, totalQuestions, onRetry }) => {
+const QuizResult = ({ results, totalQuestions, onRetry, deckId }) => {
     const correctAnswers = results.filter(result => result.correct).length;
     const score = Math.round((correctAnswers / totalQuestions) * 100);
 
@@ -53,7 +53,7 @@ const QuizResult = ({ results, totalQuestions, onRetry }) => {
                             <div>
                                 {result.correct ?
                                     <span className="text-success">Correct</span> :
-                                    <span className="text-danger">Incorrect (You selected: {result.selected})</span>
+                                    <span className="text-danger">Incorrect</span>
                                 }
                             </div>
                         </ListGroup.Item>
@@ -61,12 +61,27 @@ const QuizResult = ({ results, totalQuestions, onRetry }) => {
                 </ListGroup>
             </Card.Body>
             <Card.Footer className="d-flex justify-content-between">
-                <Button variant="outline-primary" onClick={onRetry}>
-                    <FaRedo className="me-1" /> Try Again
-                </Button>
-                <Button variant="outline-secondary" as={Link} to="/">
-                    <FaHome className="me-1" /> Home
-                </Button>
+                <div>
+                    <Button variant="outline-primary" onClick={onRetry} className="me-2">
+                        <FaRedo className="me-1" /> Try Again
+                    </Button>
+
+                    {deckId && (
+                        <Button
+                            variant="outline-secondary"
+                            as={Link}
+                            to={`/shared-deck/${deckId}`}
+                        >
+                            <FaArrowLeft className="me-1" /> Back to Deck
+                        </Button>
+                    )}
+                </div>
+
+                {!deckId && (
+                    <Button variant="outline-secondary" as={Link} to="/">
+                        <FaHome className="me-1" /> Home
+                    </Button>
+                )}
             </Card.Footer>
         </Card>
     );

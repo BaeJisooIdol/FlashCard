@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import Toast from '../components/common/Toast';
+import './ToastContext.css'; // We'll create this CSS file for positioning
 
 export const ToastContext = createContext();
 
@@ -37,7 +38,7 @@ export const ToastProvider = ({ children }) => {
             }}
         >
             {children}
-            <div className="toast-container">
+            <div className="toast-container-custom">
                 {toasts.map(toast => (
                     <Toast
                         key={toast.id}

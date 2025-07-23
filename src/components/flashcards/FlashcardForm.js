@@ -8,7 +8,7 @@ const FlashcardForm = ({ flashcard = {}, categories = [], onSubmit, isEditing = 
     const [formData, setFormData] = useState({
         question: '',
         answer: '',
-        category: '',
+        categories: [],
     });
     const [validated, setValidated] = useState(false);
 
@@ -17,7 +17,7 @@ const FlashcardForm = ({ flashcard = {}, categories = [], onSubmit, isEditing = 
             setFormData({
                 question: flashcard.question || '',
                 answer: flashcard.answer || '',
-                category: flashcard.category || '',
+                categories: flashcard.categories || [],
             });
         }
     }, [isEditing, flashcard]);
@@ -27,6 +27,14 @@ const FlashcardForm = ({ flashcard = {}, categories = [], onSubmit, isEditing = 
         setFormData((prev) => ({
             ...prev,
             [name]: value,
+        }));
+    };
+
+    const handleCategoriesChange = (e) => {
+        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+        setFormData(prev => ({
+            ...prev,
+            categories: selectedOptions
         }));
     };
 
@@ -79,22 +87,25 @@ const FlashcardForm = ({ flashcard = {}, categories = [], onSubmit, isEditing = 
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Label>Category</Form.Label>
+                        <Form.Label>Categories</Form.Label>
                         <Form.Select
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
+                            name="categories"
+                            value={formData.categories}
+                            onChange={handleCategoriesChange}
                             required
+                            multiple
                         >
-                            <option value="">Select a category</option>
                             {categories.map((category) => (
                                 <option key={category} value={category}>
                                     {category}
                                 </option>
                             ))}
                         </Form.Select>
+                        <Form.Text className="text-muted">
+                            Hold Ctrl (or Cmd on Mac) to select multiple categories.
+                        </Form.Text>
                         <Form.Control.Feedback type="invalid">
-                            Please select a category.
+                            Please select at least one category.
                         </Form.Control.Feedback>
                     </Form.Group>
 

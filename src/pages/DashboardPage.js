@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { FaBook, FaClipboardCheck, FaChartLine, FaAward } from 'react-icons/fa';
 import StatCard from '../components/dashboard/StatCard';
 import { useToast } from '../context/ToastContext';
@@ -172,7 +173,15 @@ const DashboardPage = () => {
                                     <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
                                         <div>
                                             <div>{formatDate(result.date)}</div>
-                                            <small className="text-muted">{result.category}</small>
+                                            <small className="text-muted">
+                                                {result.deckId ? (
+                                                    <Link to={`/quiz/${result.deckId}?autoStart=true`}>
+                                                        {result.deckName || result.category} (Try again)
+                                                    </Link>
+                                                ) : (
+                                                    result.category
+                                                )}
+                                            </small>
                                         </div>
                                         <div className="text-end">
                                             <span className={`badge bg-${badgeColor}`}>

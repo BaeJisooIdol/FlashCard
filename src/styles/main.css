@@ -53,7 +53,7 @@ body {
 .flashcard-container {
   perspective: 1000px;
   width: 100%;
-  height: 400px;
+  height: 250px;
 }
 
 .flashcard {
@@ -86,7 +86,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
@@ -140,6 +139,7 @@ body {
   font-weight: 600;
   margin-bottom: 0.75rem;
   font-size: 1.2rem;
+  color: var(--text-color);
 }
 
 .badge {
@@ -187,6 +187,9 @@ body {
   border-radius: 8px;
   padding: 15px;
   margin: 8px 0;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
 
 .quiz-option:hover {
@@ -219,11 +222,14 @@ body {
 .toast {
   min-width: 250px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--card-bg);
+  color: var(--text-color);
 }
 
 .toast .close {
   opacity: 0.8;
   cursor: pointer;
+  color: var(--text-color);
 }
 
 .toast .close:hover {
@@ -232,6 +238,9 @@ body {
 
 .toast-header {
   padding: 0.5rem 0.75rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text-color);
+  border-color: var(--border-color);
 }
 
 /* Theme Toggle Switch */

@@ -62,7 +62,11 @@ const FlashcardList = ({ flashcards, onDelete, categories }) => {
                 <Row>
                     {filteredFlashcards.map((flashcard) => (
                         <Col key={flashcard.id} md={6} lg={4} className="mb-4">
-                            <FlashcardItem flashcard={flashcard} onDelete={onDelete} />
+                            <FlashcardItem
+                                flashcard={flashcard}
+                                onDelete={onDelete}
+                                showDeleteModal={onDelete}
+                            />
                         </Col>
                     ))}
                 </Row>

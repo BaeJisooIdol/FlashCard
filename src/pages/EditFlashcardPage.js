@@ -23,6 +23,14 @@ const EditFlashcardPage = () => {
                     api.getCategories()
                 ]);
 
+                // Check if the flashcard belongs to the current user
+                const currentUser = api.getCurrentUser();
+                if (!currentUser || (flashcardData.userId && flashcardData.userId !== currentUser.id)) {
+                    setError('You do not have permission to edit this flashcard');
+                    setLoading(false);
+                    return;
+                }
+
                 setFlashcard(flashcardData);
                 setCategories(categoriesData);
                 setLoading(false);
@@ -39,7 +47,13 @@ const EditFlashcardPage = () => {
 
     const handleSubmit = async (formData) => {
         try {
-            await api.updateFlashcard(id, formData);
+            // Preserve userId from the original flashcard
+            const updatedFlashcard = {
+                ...formData,
+                userId: flashcard.userId
+            };
+
+            await api.updateFlashcard(id, updatedFlashcard);
             showSuccess('Flashcard updated successfully');
             navigate('/flashcards');
         } catch (err) {

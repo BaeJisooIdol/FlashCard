@@ -1,0 +1,44 @@
+.deck-comments {
+    margin-bottom: 2rem;
+}
+
+.comment-list {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
+.comment-list .list-group-item {
+    border-left: none;
+    border-right: none;
+}
+
+.comment-list .list-group-item:first-child {
+    border-top: none;
+}
+
+.comment-list .list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Dark mode specific styles */
+.dark-mode .comment-list {
+    border-color: var(--border-color);
+}
+
+.dark-mode .comment-list .list-group-item {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dark-mode .comment-author {
+    color: var(--text-color);
+}
+
+.dark-mode .comment-date {
+    color: #a0a0a0;
+}
+
+.dark-mode .comment-text {
+    color: var(--text-color);
+} 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaSearch } from 'react-icons/fa';
 import StudyCard from '../components/study/StudyCard';
 import { useToast } from '../context/ToastContext';
@@ -15,14 +15,31 @@ const StudyPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState('');
     const { showError } = useToast();
+    const { deckId } = useParams(); // Get deckId from URL params
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [flashcardsData, categoriesData] = await Promise.all([
-                    api.getFlashcards(),
-                    api.getCategories()
-                ]);
+                setLoading(true);
+
+                let flashcardsData;
+
+                if (deckId) {
+                    // If deckId is provided, fetch only flashcards for this deck
+                    flashcardsData = await api.getFlashcardsByDeck(deckId);
+
+                    // If no flashcards found for this deck, show error
+                    if (!flashcardsData || flashcardsData.length === 0) {
+                        setError('This deck has no flashcards. Please add some flashcards first.');
+                        setLoading(false);
+                        return;
+                    }
+                } else {
+                    // Otherwise fetch all flashcards
+                    flashcardsData = await api.getFlashcards();
+                }
+
+                const categoriesData = await api.getCategories();
 
                 setFlashcards(flashcardsData);
                 setFilteredFlashcards(flashcardsData);
@@ -37,7 +54,7 @@ const StudyPage = () => {
         };
 
         fetchData();
-    }, [showError]);
+    }, [deckId, showError]);
 
     useEffect(() => {
         // Filter flashcards when selected category changes
@@ -58,7 +75,16 @@ const StudyPage = () => {
     }
 
     if (error) {
-        return <div className="text-center py-5 text-danger">{error}</div>;
+        return (
+            <Container className="text-center py-5 fade-in">
+                <div className="text-center py-5 text-danger">{error}</div>
+                {deckId && (
+                    <Button as={Link} to={`/edit-deck/${deckId}`} variant="primary" className="mt-3">
+                        Edit Deck
+                    </Button>
+                )}
+            </Container>
+        );
     }
 
     if (flashcards.length === 0) {

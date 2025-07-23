@@ -5,6 +5,7 @@ import { FaEdit, FaTrash, FaArrowLeft, FaSync } from 'react-icons/fa';
 import DeleteConfirmationModal from '../components/common/DeleteConfirmationModal';
 import { useToast } from '../context/ToastContext';
 import api from '../services/api';
+import './FlashcardDetailPage.css';
 
 const FlashcardDetailPage = () => {
     const [flashcard, setFlashcard] = useState(null);
@@ -20,6 +21,15 @@ const FlashcardDetailPage = () => {
         const fetchFlashcard = async () => {
             try {
                 const data = await api.getFlashcardById(id);
+
+                // Check if the flashcard belongs to the current user
+                const currentUser = api.getCurrentUser();
+                if (!currentUser || (data.userId && data.userId !== currentUser.id)) {
+                    setError('You do not have permission to view this flashcard');
+                    setLoading(false);
+                    return;
+                }
+
                 setFlashcard(data);
                 setLoading(false);
             } catch (err) {
@@ -66,7 +76,7 @@ const FlashcardDetailPage = () => {
     }
 
     return (
-        <Container className="fade-in">
+        <Container className="fade-in flashcard-detail-page">
             <Row className="mb-4">
                 <Col>
                     <Button
@@ -83,10 +93,10 @@ const FlashcardDetailPage = () => {
 
             <Row className="justify-content-center">
                 <Col lg={8}>
-                    <div className="flashcard-container" style={{ height: '400px', marginBottom: '20px' }}>
+                    <div className="flashcard-container">
                         <div className={`flashcard ${flipped ? 'flipped' : ''}`}>
                             <div className="flashcard-inner">
-                                <Card className="flashcard-front" style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                                <Card className="flashcard-front">
                                     <Card.Body onClick={handleFlip}>
                                         <div className="d-flex flex-column h-100">
                                             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -119,7 +129,7 @@ const FlashcardDetailPage = () => {
                                     </Card.Body>
                                 </Card>
 
-                                <Card className="flashcard-back" style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                                <Card className="flashcard-back">
                                     <Card.Body onClick={handleFlip}>
                                         <div className="d-flex flex-column h-100">
                                             <div className="mb-4">

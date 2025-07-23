@@ -1,0 +1,53 @@
+.shared-deck-container {
+    margin-bottom: 2rem;
+}
+
+.deck-content {
+    margin-bottom: 2rem;
+}
+
+.flashcard-list {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    margin-top: 1rem;
+}
+
+.flashcard-list .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 0.75rem 1.25rem;
+}
+
+.flashcard-list .list-group-item:first-child {
+    border-top: none;
+}
+
+.flashcard-list .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.study-options-card {
+    position: sticky;
+    height: auto !important;
+}
+
+/* Dark mode specific styles */
+.dark-mode .flashcard-list {
+    border-color: var(--border-color);
+}
+
+.dark-mode .list-group-item {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dark-mode .text-muted {
+    color: #a0a0a0 !important;
+}
+
+@media (max-width: 991.98px) {
+    .study-options-card {
+        position: static;
+    }
+} 

@@ -29,7 +29,21 @@ const CreateFlashcardPage = () => {
 
     const handleSubmit = async (formData) => {
         try {
-            await api.createFlashcard(formData);
+            // Get current user
+            const currentUser = api.getCurrentUser();
+            if (!currentUser) {
+                showError('You must be logged in to create flashcards');
+                navigate('/login');
+                return;
+            }
+
+            // Add userId to formData
+            const flashcardData = {
+                ...formData,
+                userId: currentUser.id
+            };
+
+            await api.createFlashcard(flashcardData);
             showSuccess('Flashcard created successfully');
             navigate('/flashcards');
         } catch (err) {
@@ -49,6 +63,7 @@ const CreateFlashcardPage = () => {
                     <h1 className="mb-4">Create New Flashcard</h1>
                     <p className="mb-4">
                         Fill in the form below to create a new flashcard. All fields are required.
+                        You can select multiple categories for your flashcard.
                     </p>
                     <FlashcardForm
                         categories={categories}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { FaPlay, FaFilter } from 'react-icons/fa';
 import QuizCard from '../components/quiz/QuizCard';
 import QuizResult from '../components/quiz/QuizResult';
@@ -8,6 +8,10 @@ import { useToast } from '../context/ToastContext';
 import api from '../services/api';
 
 const QuizPage = () => {
+    const { deckId } = useParams();
+    const [searchParams] = useSearchParams();
+    const autoStart = searchParams.get('autoStart') === 'true';
+
     const [flashcards, setFlashcards] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,19 +22,50 @@ const QuizPage = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [quizResults, setQuizResults] = useState([]);
     const [isQuizFinished, setIsQuizFinished] = useState(false);
+    const [deckInfo, setDeckInfo] = useState(null);
+    const [hasAutoStarted, setHasAutoStarted] = useState(false);
     const { showError, showSuccess } = useToast();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [flashcardsData, categoriesData] = await Promise.all([
-                    api.getFlashcards(),
-                    api.getCategories()
-                ]);
+                let flashcardsData;
+
+                if (deckId) {
+                    // If deckId is provided, fetch only flashcards for this deck
+                    flashcardsData = await api.getFlashcardsByDeck(deckId);
+
+                    // Also fetch deck info
+                    const deckData = await api.getDeckById(deckId);
+                    setDeckInfo(deckData);
+
+                    // If no flashcards found for this deck, show error
+                    if (!flashcardsData || flashcardsData.length === 0) {
+                        setError('This deck has no flashcards. Please add some flashcards first.');
+                        setLoading(false);
+                        return;
+                    }
+                } else {
+                    // Otherwise fetch all flashcards
+                    flashcardsData = await api.getFlashcards();
+                }
+
+                const categoriesData = await api.getCategories();
 
                 setFlashcards(flashcardsData);
                 setCategories(categoriesData);
                 setLoading(false);
+
+                // Auto start quiz if requested and we have a deck ID
+                // But only if we haven't auto-started before
+                if (autoStart && deckId && flashcardsData.length > 0 && !hasAutoStarted) {
+                    // Mark that we've auto-started to prevent re-triggering
+                    setHasAutoStarted(true);
+                    // Use setTimeout to ensure state is updated before starting quiz
+                    setTimeout(() => {
+                        startQuizWithCards(flashcardsData);
+                    }, 100);
+                }
             } catch (err) {
                 console.error('Error fetching data:', err);
                 setError('Failed to fetch data. Please try again later.');
@@ -40,7 +75,7 @@ const QuizPage = () => {
         };
 
         fetchData();
-    }, [showError]);
+    }, [deckId, showError, autoStart, hasAutoStarted]);
 
     // Helper function to shuffle array
     const shuffleArray = (array) => {
@@ -66,6 +101,29 @@ const QuizPage = () => {
         return shuffleArray([correctAnswer, ...incorrectOptions]);
     };
 
+    // Start quiz with specific cards
+    const startQuizWithCards = (cards) => {
+        if (!cards || cards.length === 0) {
+            showError('No flashcards available');
+            return;
+        }
+
+        // Shuffle the cards for random order
+        const shuffledCards = shuffleArray(cards);
+
+        // Prepare quiz cards with options
+        const preparedQuizCards = shuffledCards.map(card => ({
+            ...card,
+            options: generateOptions(card.answer, cards)
+        }));
+
+        setQuizFlashcards(preparedQuizCards);
+        setCurrentQuestionIndex(0);
+        setQuizResults([]);
+        setIsQuizStarted(true);
+        setIsQuizFinished(false);
+    };
+
     // Start the quiz
     const startQuiz = () => {
         // Filter flashcards by category if selected
@@ -79,20 +137,7 @@ const QuizPage = () => {
             return;
         }
 
-        // Shuffle the cards for random order
-        quizCards = shuffleArray(quizCards);
-
-        // Prepare quiz cards with options
-        const preparedQuizCards = quizCards.map(card => ({
-            ...card,
-            options: generateOptions(card.answer, flashcards)
-        }));
-
-        setQuizFlashcards(preparedQuizCards);
-        setCurrentQuestionIndex(0);
-        setQuizResults([]);
-        setIsQuizStarted(true);
-        setIsQuizFinished(false);
+        startQuizWithCards(quizCards);
     };
 
     // Handle answering a question
@@ -119,6 +164,7 @@ const QuizPage = () => {
             setTimeout(() => {
                 setIsQuizFinished(true);
                 showSuccess('Quiz completed!');
+                console.log("Quiz finished, showing results");
 
                 // Save the quiz result to the backend
                 const saveResult = async () => {
@@ -126,6 +172,8 @@ const QuizPage = () => {
                         const result = {
                             date: new Date().toISOString(),
                             category: selectedCategory || 'All Categories',
+                            deckId: deckId || null,
+                            deckName: deckInfo ? deckInfo.name : null,
                             totalQuestions: quizFlashcards.length,
                             correctAnswers: quizResults.filter(r => r.correct).length + (isCorrect ? 1 : 0)
                         };
@@ -142,7 +190,16 @@ const QuizPage = () => {
 
     // Retry the quiz
     const retryQuiz = () => {
-        startQuiz();
+        // Reset quiz finished state
+        setIsQuizFinished(false);
+
+        // If we have a deckId, use all flashcards from that deck
+        if (deckId) {
+            startQuizWithCards(flashcards);
+        } else {
+            // Otherwise use the regular startQuiz function with category filtering
+            startQuiz();
+        }
     };
 
     if (loading) {
@@ -150,7 +207,16 @@ const QuizPage = () => {
     }
 
     if (error) {
-        return <div className="text-center py-5 text-danger">{error}</div>;
+        return (
+            <Container className="text-center py-5 fade-in">
+                <div className="text-center py-5 text-danger">{error}</div>
+                {deckId && (
+                    <Button as={Link} to={`/shared-deck/${deckId}`} variant="secondary" className="mt-3">
+                        Back to Deck
+                    </Button>
+                )}
+            </Container>
+        );
     }
 
     if (flashcards.length === 0) {
@@ -167,7 +233,9 @@ const QuizPage = () => {
 
     return (
         <Container className="fade-in">
-            <h1 className="mb-4">Quiz Mode</h1>
+            <h1 className="mb-4">
+                Quiz Mode {deckInfo && <span>- {deckInfo.name}</span>}
+            </h1>
 
             {!isQuizStarted ? (
                 // Quiz setup
@@ -197,13 +265,26 @@ const QuizPage = () => {
                         </Col>
                     </Row>
 
-                    <Button
-                        variant="primary"
-                        onClick={startQuiz}
-                        className="mb-3"
-                    >
-                        <FaPlay className="me-2" /> Start Quiz
-                    </Button>
+                    <div className="d-flex gap-2">
+                        <Button
+                            variant="primary"
+                            onClick={startQuiz}
+                            className="mb-3"
+                        >
+                            <FaPlay className="me-2" /> Start Quiz
+                        </Button>
+
+                        {deckId && (
+                            <Button
+                                variant="secondary"
+                                as={Link}
+                                to={`/shared-deck/${deckId}`}
+                                className="mb-3"
+                            >
+                                Back to Deck
+                            </Button>
+                        )}
+                    </div>
                 </div>
             ) : isQuizFinished ? (
                 // Quiz finished - show results
@@ -211,6 +292,7 @@ const QuizPage = () => {
                     results={quizResults}
                     totalQuestions={quizFlashcards.length}
                     onRetry={retryQuiz}
+                    deckId={deckId}
                 />
             ) : (
                 // Quiz in progress - show current question

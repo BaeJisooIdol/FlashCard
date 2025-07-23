@@ -1,0 +1,245 @@
+/* Dark mode text color fixes */
+
+/* Fix text color in cards */
+.dark-mode .card {
+  color: var(--text-color);
+}
+
+/* Fix text-muted color in dark mode */
+.dark-mode .text-muted {
+  color: #a0a0a0 !important;
+}
+
+/* Fix badge text colors in dark mode */
+.dark-mode .badge.bg-secondary,
+.dark-mode .badge.bg-primary,
+.dark-mode .badge.bg-success,
+.dark-mode .badge.bg-info {
+  color: #fff !important;
+}
+
+.dark-mode .badge.bg-warning {
+  color: #212529 !important;
+}
+
+/* Fix list group items in dark mode */
+.dark-mode .list-group-item {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+/* Fix modal content in dark mode */
+.dark-mode .modal-content {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.dark-mode .modal-header,
+.dark-mode .modal-footer {
+  border-color: var(--border-color);
+}
+
+.dark-mode .close {
+  color: var(--text-color);
+}
+
+/* Fix form controls in dark mode */
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-mode .input-group-text {
+  background-color: #2c2c2c;
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus {
+  background-color: #2c2c2c;
+  color: var(--text-color);
+  border-color: var(--primary-color);
+}
+
+.dark-mode .form-control::placeholder {
+  color: #a0a0a0;
+}
+
+.dark-mode .form-check-input {
+  background-color: #2c2c2c;
+  border-color: var(--border-color);
+}
+
+.dark-mode .form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Fix dropdown menus in dark mode */
+.dark-mode .dropdown-menu {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.dark-mode .dropdown-item {
+  color: var(--text-color);
+}
+
+.dark-mode .dropdown-item:hover,
+.dark-mode .dropdown-item:focus {
+  background-color: #3a3a3a;
+  color: var(--text-color);
+}
+
+/* Fix buttons in dark mode */
+.dark-mode .btn-outline-secondary {
+  color: #a0a0a0;
+  border-color: #a0a0a0;
+}
+
+.dark-mode .btn-outline-secondary:hover {
+  color: #212529;
+  background-color: #a0a0a0;
+}
+
+/* Fix alert in dark mode */
+.dark-mode .alert {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+/* Fix table in dark mode */
+.dark-mode .table {
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+
+.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-color);
+}
+
+/* Fix flashcard specific elements */
+.dark-mode .flashcard-front small.text-muted,
+.dark-mode .flashcard-back small.text-muted {
+  color: #a0a0a0 !important;
+}
+
+.dark-mode .flashcard-back {
+  background-color: #2d5a34; /* Darker green but still distinguishable in dark mode */
+  color: #f0f0f0; /* Light text for contrast */
+}
+
+/* Fix card header and footer in dark mode */
+.dark-mode .card-header,
+.dark-mode .card-footer {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-color: var(--border-color);
+}
+
+/* Fix deck details page */
+.dark-mode .deck-content .card-text,
+.dark-mode .deck-content .lead,
+.dark-mode .deck-content h5,
+.dark-mode .deck-content .fw-bold {
+  color: var(--text-color);
+}
+
+/* Fix shared decks page */
+.dark-mode .card-text {
+  color: var(--text-color);
+}
+
+.dark-mode .nav-tabs .nav-link {
+  color: var(--text-color);
+}
+
+.dark-mode .nav-tabs .nav-link.active {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+  border-bottom-color: var(--card-bg);
+}
+
+/* Fix comments and ratings */
+.dark-mode .comment-author,
+.dark-mode .comment-text {
+  color: var(--text-color);
+}
+
+/* Fix study page */
+.dark-mode .study-options-card h5,
+.dark-mode .study-options-card .text-muted {
+  color: var(--text-color);
+}
+
+/* Fix quiz page */
+.dark-mode .quiz-option {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.dark-mode .quiz-option:hover {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+/* Fix user profile page */
+.dark-mode .profile-info h3,
+.dark-mode .profile-info p {
+  color: var(--text-color);
+}
+
+/* Fix toast notifications */
+.dark-mode .toast {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.dark-mode .toast-header {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: var(--text-color);
+}
+
+/* Fix text in all headings */
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3, 
+.dark-mode h4, 
+.dark-mode h5, 
+.dark-mode h6,
+.dark-mode .h1, 
+.dark-mode .h2, 
+.dark-mode .h3, 
+.dark-mode .h4, 
+.dark-mode .h5, 
+.dark-mode .h6 {
+  color: var(--text-color);
+}
+
+/* Fix text in paragraphs */
+.dark-mode p {
+  color: var(--text-color);
+}
+
+/* Fix text in spans */
+.dark-mode span {
+  color: inherit;
+}
+
+/* Fix labels */
+.dark-mode label {
+  color: var(--text-color);
+}
+
+/* Fix links */
+.dark-mode a:not(.btn):not(.nav-link) {
+  color: var(--primary-color);
+}
+
+.dark-mode a:not(.btn):not(.nav-link):hover {
+  color: var(--secondary-color);
+} 

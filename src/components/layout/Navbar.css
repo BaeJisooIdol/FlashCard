@@ -1,0 +1,46 @@
+/* Navbar styling */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Fix dropdown menu in dark mode */
+.dark-mode .dropdown-menu {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.dark-mode .dropdown-item {
+    color: var(--text-color);
+}
+
+.dark-mode .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.dark-mode .dropdown-divider {
+    border-color: var(--border-color);
+}
+
+/* Fix navbar text colors in dark mode */
+.dark-mode .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.dark-mode .navbar-dark .navbar-nav .nav-link:hover {
+    color: #fff;
+}
+
+.dark-mode .navbar-dark .navbar-brand {
+    color: #fff;
+}
+
+/* Fix navbar toggler in dark mode */
+.dark-mode .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+} 
