@@ -1,139 +1,139 @@
 # FlashCard Learning App
 
-Ứng dụng học tập thông qua flashcard tương tác, được xây dựng bằng React và Bootstrap.
+An interactive flashcard application for effective learning, built with React and Bootstrap.
 
-## Tính năng chính
+## Key Features
 
-- **Quản lý Flashcard**
+- **Flashcard Management**
 
-  - Tạo, xem, cập nhật và xóa flashcard
-  - Hỗ trợ gán nhiều danh mục cho mỗi flashcard
-  - Tìm kiếm và lọc flashcard theo danh mục
+  - Create, view, update, and delete flashcards
+  - Support for assigning multiple categories to each flashcard
+  - Search and filter flashcards by category
 
-- **Quản lý Deck**
+- **Deck Management**
 
-  - Tổ chức flashcard thành các deck
-  - Tạo deck mới với nhiều danh mục
-  - Thêm flashcard từ nhiều danh mục vào deck
-  - Chỉnh sửa thông tin và danh mục của deck
+  - Organize flashcards into decks
+  - Create new decks with multiple categories
+  - Add flashcards from multiple categories to decks
+  - Edit deck information and categories
 
-- **Chế độ học tập**
+- **Learning Modes**
 
-  - Chế độ Study: lật flashcard để học
-  - Chế độ Quiz: kiểm tra kiến thức với câu hỏi trắc nghiệm
-  - Tự động bắt đầu quiz khi chọn deck
-  - Hiển thị kết quả và thống kê sau khi hoàn thành quiz
+  - Study Mode: flip flashcards to learn
+  - Quiz Mode: test your knowledge with multiple-choice questions
+  - Auto-start quiz when selecting a deck
+  - Display results and statistics after completing a quiz
 
-- **Chia sẻ và cộng tác**
+- **Sharing and Collaboration**
 
-  - Chia sẻ deck với người dùng khác
-  - Deck công khai và riêng tư
-  - Bình luận và đánh giá deck công khai
+  - Share decks with other users
+  - Public and private decks
+  - Comment and rate public decks
 
-- **Bảng điều khiển**
+- **Dashboard**
 
-  - Thống kê học tập và tiến độ
-  - Biểu đồ phân phối flashcard theo danh mục
-  - Xem lịch sử kết quả quiz
-  - Thử lại các bài quiz trước đó
+  - Learning statistics and progress
+  - Flashcard distribution chart by category
+  - View quiz result history
+  - Retry previous quizzes
 
-- **Giao diện người dùng**
-  - Thiết kế đáp ứng đầy đủ
-  - Chuyển đổi chế độ sáng/tối
-  - Thông báo toast cho các hành động
-  - Giao diện thân thiện với người dùng
+- **User Interface**
+  - Fully responsive design
+  - Light/Dark mode switching
+  - Toast notifications for actions
+  - User-friendly interface
 
-## Công nghệ sử dụng
+## Technology Stack
 
 - React 18
 - React Router v6+
 - React Bootstrap
 - React Icons
-- Context API cho quản lý state
-- Axios cho API calls
-- JSON Server cho backend
+- Context API for state management
+- Axios for API calls
+- JSON Server for backend
 
-## Bắt đầu
+## Getting Started
 
-### Yêu cầu
+### Requirements
 
 - Node.js (>= 14.x)
 - npm (>= 6.x)
 
-### Cài đặt
+### Installation
 
-1. Clone repository hoặc tải mã nguồn
-2. Di chuyển đến thư mục dự án
+1. Clone the repository or download the source code
+2. Navigate to the project directory
 
 ```bash
 cd flashcard-app
 ```
 
-3. Cài đặt các dependencies
+3. Install dependencies
 
 ```bash
 npm install
 ```
 
-### Chạy ứng dụng
+### Running the Application
 
-1. Khởi động JSON Server (trong một terminal)
+1. Start JSON Server (in one terminal)
 
 ```bash
 npm run server
 ```
 
-Điều này sẽ khởi động backend JSON server tại http://localhost:5000
+This will start the backend JSON server at http://localhost:5000
 
-2. Khởi động máy chủ phát triển React (trong terminal khác)
+2. Start the React development server (in another terminal)
 
 ```bash
 npm start
 ```
 
-Điều này sẽ chạy ứng dụng ở chế độ phát triển tại http://localhost:3000
+This will run the app in development mode at http://localhost:3000
 
-## Sử dụng
+## Usage
 
-- **Trang chủ**: Tổng quan về ứng dụng và tính năng
-- **Flashcards**: Xem, tìm kiếm và quản lý tất cả flashcard của bạn
-- **Deck chia sẻ**: Khám phá và sử dụng deck công khai hoặc được chia sẻ với bạn
-- **Deck của tôi**: Quản lý các deck bạn đã tạo
-- **Tạo Flashcard**: Thêm flashcard mới vào bộ sưu tập của bạn
-- **Chế độ Study**: Lật qua các flashcard để học
-- **Chế độ Quiz**: Kiểm tra kiến thức của bạn với câu hỏi trắc nghiệm
-- **Bảng điều khiển**: Theo dõi tiến độ và xem thống kê của bạn
+- **Home Page**: Overview of the application and features
+- **Flashcards**: View, search, and manage all your flashcards
+- **Shared Decks**: Explore and use public decks or decks shared with you
+- **My Decks**: Manage decks you've created
+- **Create Flashcard**: Add new flashcards to your collection
+- **Study Mode**: Flip through flashcards to learn
+- **Quiz Mode**: Test your knowledge with multiple-choice questions
+- **Dashboard**: Track your progress and view your statistics
 
-## Cấu trúc dự án
+## Project Structure
 
 ```
 flashcard-app/
-  ├── public/              # Tài nguyên tĩnh
+  ├── public/              # Static resources
   ├── src/
-  │   ├── assets/          # Hình ảnh và tài nguyên
-  │   ├── components/      # Các component React
-  │   │   ├── common/      # Component dùng chung
-  │   │   ├── dashboard/   # Component cho bảng điều khiển
-  │   │   ├── flashcards/  # Component cho flashcard
-  │   │   ├── layout/      # Component layout
-  │   │   ├── quiz/        # Component cho chế độ quiz
-  │   │   └── study/       # Component cho chế độ study
+  │   ├── assets/          # Images and resources
+  │   ├── components/      # React components
+  │   │   ├── common/      # Common components
+  │   │   ├── dashboard/   # Dashboard components
+  │   │   ├── flashcards/  # Flashcard components
+  │   │   ├── layout/      # Layout components
+  │   │   ├── quiz/        # Quiz mode components
+  │   │   └── study/       # Study mode components
   │   ├── context/         # Context API
-  │   ├── pages/           # Các trang của ứng dụng
-  │   ├── routes/          # Cấu hình định tuyến
-  │   ├── services/        # API và dịch vụ
-  │   ├── styles/          # CSS và style
-  │   └── utils/           # Tiện ích và helper
-  ├── db.json              # Database JSON Server
-  └── package.json         # Dependencies và script
+  │   ├── pages/           # Application pages
+  │   ├── routes/          # Routing configuration
+  │   ├── services/        # API and services
+  │   ├── styles/          # CSS and styles
+  │   └── utils/           # Utilities and helpers
+  ├── db.json              # JSON Server database
+  └── package.json         # Dependencies and scripts
 ```
 
-## Giấy phép
+## License
 
 MIT
 
-## Ghi nhận
+## Acknowledgements
 
-- React Bootstrap cho các component UI
-- JSON Server cho mock backend
-- React Icons cho bộ icon đẹp
+- React Bootstrap for UI components
+- JSON Server for mock backend
+- React Icons for beautiful icon set
