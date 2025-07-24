@@ -59,7 +59,6 @@ const DashboardPage = () => {
         // Sort by date descending and take the last 5
         return [...quizResults]
             .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 5);
     };
 
     const formatDate = (dateString) => {
@@ -162,47 +161,43 @@ const DashboardPage = () => {
                         <Card.Header>
                             <h5 className={`${darkMode ? 'text-white' : ''} mb-0`}>Recent Quiz Results</h5>
                         </Card.Header>
-                        <ListGroup variant="flush">
-                            {getRecentResults().map((result, index) => {
-                                const score = Math.round((result.correctAnswers / result.totalQuestions) * 100);
-                                let badgeColor = 'danger';
-                                if (score >= 80) badgeColor = 'success';
-                                else if (score >= 60) badgeColor = 'warning';
+                        <div style={{ maxHeight: '770px', overflowY: 'auto' }}>
+                            <ListGroup variant="flush">
+                                {getRecentResults().map((result, index) => {
+                                    const score = Math.round((result.correctAnswers / result.totalQuestions) * 100);
+                                    let badgeColor = 'danger';
+                                    if (score >= 80) badgeColor = 'success';
+                                    else if (score >= 60) badgeColor = 'warning';
 
-                                return (
-                                    <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <div>{formatDate(result.date)}</div>
-                                            <small className="text-muted">
-                                                {result.deckId ? (
-                                                    <Link to={`/quiz/${result.deckId}?autoStart=true`}>
-                                                        {result.deckName || result.category} (Try again)
-                                                    </Link>
-                                                ) : (
-                                                    result.category
-                                                )}
-                                            </small>
-                                        </div>
-                                        <div className="text-end">
-                                            <span className={`badge bg-${badgeColor}`}>
-                                                {score}%
-                                            </span>
+                                    return (
+                                        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
                                             <div>
+                                                <div>{formatDate(result.date)}</div>
                                                 <small className="text-muted">
-                                                    {result.correctAnswers}/{result.totalQuestions} correct
+                                                    {result.deckName || result.category}
                                                 </small>
                                             </div>
-                                        </div>
-                                    </ListGroup.Item>
-                                );
-                            })}
+                                            <div className="text-end">
+                                                <span className={`badge bg-${badgeColor}`}>
+                                                    {score}%
+                                                </span>
+                                                <div>
+                                                    <small className="text-muted">
+                                                        {result.correctAnswers}/{result.totalQuestions} correct
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </ListGroup.Item>
+                                    );
+                                })}
 
-                            {quizResults.length === 0 && (
-                                <ListGroup.Item className="text-center py-4">
-                                    <p>No quiz results available. Take a quiz to see your results here.</p>
-                                </ListGroup.Item>
-                            )}
-                        </ListGroup>
+                                {quizResults.length === 0 && (
+                                    <ListGroup.Item className="text-center py-4">
+                                        <p>No quiz results available. Take a quiz to see your results here.</p>
+                                    </ListGroup.Item>
+                                )}
+                            </ListGroup>
+                        </div>
                     </Card>
                 </Col>
             </Row>

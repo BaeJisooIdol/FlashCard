@@ -24,13 +24,12 @@ axiosInstance.interceptors.request.use(
 export const api = {
     // Auth methods
     login: async (username, password) => {
-        // In a real app, this would be a POST request to a login endpoint
         // For json-server, we'll simulate by checking if the user exists
         const response = await axios.get(`${API_URL}/users?username=${username}`);
+        console.log(response);
         const user = response.data[0];
 
         if (user && user.password === password) {
-            // In a real app, the server would generate a token
             // Here we'll simulate by creating a simple token
             const token = btoa(`${username}:${password}`);
             localStorage.setItem('authToken', token);
@@ -464,6 +463,27 @@ export const api = {
         }
     },
 
+    removeFlashcardFromDeck: async (id) => {
+        try {
+            // Get the flashcard first
+            const flashcard = await api.getFlashcardById(id);
+            const currentUser = api.getCurrentUser();
+
+            // Check if the user is authorized to modify this flashcard
+            if (!currentUser || (flashcard.userId && flashcard.userId !== currentUser.id)) {
+                throw new Error('You do not have permission to modify this flashcard');
+            }
+
+            // Update the flashcard to remove the deckId
+            const updatedFlashcard = { ...flashcard, deckId: null };
+            const response = await axiosInstance.put(`${API_URL}/flashcards/${id}`, updatedFlashcard);
+            return response.data;
+        } catch (error) {
+            console.error('Error removing flashcard from deck:', error);
+            throw error;
+        }
+    },
+
     // Category methods
     getCategories: async () => {
         const response = await axios.get(`${API_URL}/categories`);
@@ -486,12 +506,22 @@ export const api = {
     },
 
     getQuizResults: async (userId = null) => {
-        let url = `${API_URL}/quizResults`;
-        if (userId) {
-            url += `?userId=${userId}`;
+        try {
+            const currentUser = api.getCurrentUser();
+            if (!userId && currentUser) {
+                userId = currentUser.id;
+            }
+
+            let url = `${API_URL}/quizResults`;
+            if (userId) {
+                url += `?userId=${userId}`;
+            }
+            const response = await axiosInstance.get(url);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching quiz results:', error);
+            return [];
         }
-        const response = await axiosInstance.get(url);
-        return response.data;
     },
 
     // Sharing methods

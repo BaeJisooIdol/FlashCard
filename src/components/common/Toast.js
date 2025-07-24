@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Toast as BootstrapToast } from 'react-bootstrap';
-import { FaCheckCircle, FaExclamationTriangle, FaInfoCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaExclamationTriangle, FaInfoCircle } from 'react-icons/fa';
 import './Toast.css'; // We'll create this CSS file for animations
+import { MdOutlineError } from 'react-icons/md';
 
 const Toast = ({ show, onClose, variant, message, delay = 3000 }) => {
     const [visible, setVisible] = useState(show);
@@ -42,7 +43,7 @@ const Toast = ({ show, onClose, variant, message, delay = 3000 }) => {
             case 'danger':
             case 'error':
                 return {
-                    icon: <FaTimesCircle className="me-2" />,
+                    icon: <MdOutlineError className="me-2" />,
                     headerClass: 'toast-header-danger',
                     bodyClass: 'toast-body-danger',
                     text: 'white'

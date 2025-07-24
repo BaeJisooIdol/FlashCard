@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Button, ProgressBar, ListGroup } from 'react-bootstrap';
-import { FaCheck, FaTimes, FaRedo, FaHome, FaArrowLeft } from 'react-icons/fa';
+import { FaCheck, FaTimes, FaHome, FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const QuizResult = ({ results, totalQuestions, onRetry, deckId }) => {
@@ -62,10 +62,6 @@ const QuizResult = ({ results, totalQuestions, onRetry, deckId }) => {
             </Card.Body>
             <Card.Footer className="d-flex justify-content-between">
                 <div>
-                    <Button variant="outline-primary" onClick={onRetry} className="me-2">
-                        <FaRedo className="me-1" /> Try Again
-                    </Button>
-
                     {deckId && (
                         <Button
                             variant="outline-secondary"

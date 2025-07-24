@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Badge, ListGroup, Alert } from 'react-bootstrap';
-import { FaGlobe, FaLock, FaUser, FaClock, FaArrowLeft, FaShare, FaEdit } from 'react-icons/fa';
+import { FaGlobe, FaLock, FaUser, FaClock, FaArrowLeft, FaShare, FaEdit, FaTrash } from 'react-icons/fa';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import DeckComments from '../components/flashcards/DeckComments';
 import ShareDeckModal from '../components/flashcards/ShareDeckModal';
+import DeleteConfirmationModal from '../components/common/DeleteConfirmationModal';
 import './SharedDeckDetailPage.css';
 
 const SharedDeckDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user, isAuthenticated } = useAuth();
-    const { showError } = useToast();
+    const { showError, showSuccess } = useToast();
 
     const [deck, setDeck] = useState(null);
     const [flashcards, setFlashcards] = useState([]);
@@ -22,6 +23,8 @@ const SharedDeckDetailPage = () => {
     const [showShareModal, setShowShareModal] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [canEdit, setCanEdit] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [flashcardToDelete, setFlashcardToDelete] = useState(null);
 
     useEffect(() => {
         fetchDeckData();
@@ -75,6 +78,27 @@ const SharedDeckDetailPage = () => {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString();
+    };
+
+    const handleDeleteClick = (flashcard) => {
+        setFlashcardToDelete(flashcard);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!flashcardToDelete) return;
+
+        try {
+            await api.removeFlashcardFromDeck(flashcardToDelete.id);
+            setFlashcards(flashcards.filter(card => card.id !== flashcardToDelete.id));
+            showSuccess('Flashcard removed from deck successfully');
+        } catch (error) {
+            console.error('Error removing flashcard from deck:', error);
+            showError('Failed to remove flashcard from deck');
+        } finally {
+            setShowDeleteModal(false);
+            setFlashcardToDelete(null);
+        }
     };
 
     if (loading) {
@@ -166,7 +190,18 @@ const SharedDeckDetailPage = () => {
                                                         <span className="fw-bold me-2">{index + 1}.</span>
                                                         {card.question}
                                                     </div>
-                                                    <Badge bg="primary">{card.category}</Badge>
+                                                    <div className="d-flex align-items-center">
+                                                        <Badge bg="primary" className="me-2">{card.category}</Badge>
+                                                        {canEdit && (
+                                                            <Button
+                                                                variant="outline-danger"
+                                                                size="sm"
+                                                                onClick={() => handleDeleteClick(card)}
+                                                            >
+                                                                <FaTrash />
+                                                            </Button>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </ListGroup.Item>
                                         ))}
@@ -268,6 +303,18 @@ const SharedDeckDetailPage = () => {
                     deck={deck}
                 />
             )}
+
+            {/* Delete Confirmation Modal */}
+            <DeleteConfirmationModal
+                show={showDeleteModal}
+                onHide={() => setShowDeleteModal(false)}
+                onConfirm={handleDeleteConfirm}
+                itemName="flashcard"
+                title="Remove Flashcard"
+                message="Are you sure you want to remove this flashcard from the deck? The flashcard will still be available in your collection."
+                confirmButtonText="Remove from Deck"
+                confirmButtonVariant="warning"
+            />
         </Container>
     );
 };

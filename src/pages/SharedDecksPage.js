@@ -454,7 +454,7 @@ const SharedDecksPage = () => {
 
                                     <p className="card-text">{deck.description || 'No description provided.'}</p>
 
-                                    <div className="d-flex justify-content-between mt-3">
+                                    <div className="d-flex justify-content-between align-items-center mt-3">
                                         <div className="d-flex flex-wrap gap-2">
                                             <Badge bg="primary">{deck.flashcardCount} cards</Badge>
                                             {deck.allCategories && deck.allCategories.map((category, index) => (
